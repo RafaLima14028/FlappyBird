@@ -10,6 +10,10 @@ som_HIT.src = "./efeitos/hit.wav";
 const som_PULO = new Audio();
 som_PULO.src = "./efeitos/pulo.wav";
 
+//? SOM DE PONTUAÇÃO
+const som_PONTUACAO = new Audio();
+som_PONTUACAO.src = "./efeitos/ponto.wav";
+
 const sprites = new Image();
 sprites.src = "./sprites.png";
 
