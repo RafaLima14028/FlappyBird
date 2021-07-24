@@ -183,7 +183,7 @@ function criaCanos() {
       const cabecaDoFlappy = globais.flappyBird.y;
       const peDoFlappy = globais.flappyBird.y + globais.flappyBird.altura;
 
-      if (globais.flappyBird.x >= par.x) {
+      if (globais.flappyBird.x + globais.flappyBird.largura >= par.x) {
         //console.log("Flappy Bird invadiu a área dos canos");
 
         if (cabecaDoFlappy <= par.canoCeu.y) {
@@ -217,7 +217,8 @@ function criaCanos() {
 
         if (canos.temColisaoComOFlappyBird(par)) {
           console.log("Você perdeu !");
-          mudaParaTela(Telas.INICIO);
+          som_HIT.play();
+          mudaParaTela(Telas.GAME_OVER);
         }
 
         if (par.x + canos.largura <= 0) {
@@ -258,10 +259,7 @@ function criarFlappyBird() {
         //console.log("Fez colisão");
 
         som_HIT.play();
-
-        setTimeout(() => {
-          mudaParaTela(Telas.INICIO);
-        }, 500);
+        mudaParaTela(Telas.GAME_OVER);
 
         return;
       }
@@ -342,6 +340,55 @@ const mensagemGetReady = {
   },
 };
 
+//! TELA DE GAME_OVER
+const mensagemGameOver = {
+  sX: 134,
+  sY: 153,
+  w: 226,
+  h: 200,
+  x: canvas.width / 2 - 226 / 2,
+  y: 50,
+
+  desenha() {
+    contexto.drawImage(
+      sprites,
+      mensagemGameOver.sX,
+      mensagemGameOver.sY,
+      mensagemGameOver.w,
+      mensagemGameOver.h,
+      mensagemGameOver.x,
+      mensagemGameOver.y,
+      mensagemGameOver.w,
+      mensagemGameOver.h
+    );
+  },
+};
+
+//! PLACAR
+function criaPlacar() {
+  const placar = {
+    pontuacao: 0,
+
+    desenha() {
+      contexto.font = "35px VT323";
+      contexto.textAlign = "right";
+      contexto.fillStyle = "white";
+      contexto.fillText(`${placar.pontuacao}`, canvas.width - 10, 35);
+    },
+
+    atualiza() {
+      const intervaloDeFrames = 20;
+      const passouOIntervalo = frames % intervaloDeFrames === 0;
+
+      if (passouOIntervalo) {
+        placar.pontuacao = placar.pontuacao + 1;
+      }
+    },
+  };
+
+  return placar;
+}
+
 //! TELAS
 const globais = {};
 
@@ -380,11 +427,16 @@ const Telas = {
   },
 
   JOGO: {
+    inicializa() {
+      globais.placar = criaPlacar();
+    },
+
     desenha() {
       planoDeFundo.desenha();
       globais.canos.desenha();
       globais.chao.desenha();
       globais.flappyBird.desenha();
+      globais.placar.desenha();
     },
 
     click() {
@@ -395,6 +447,19 @@ const Telas = {
       globais.canos.atualiza();
       globais.chao.atualiza();
       globais.flappyBird.atualiza();
+      globais.placar.atualiza();
+    },
+  },
+
+  GAME_OVER: {
+    desenha() {
+      mensagemGameOver.desenha();
+    },
+
+    atualiza() {},
+
+    click() {
+      mudaParaTela(Telas.INICIO);
     },
   },
 };
