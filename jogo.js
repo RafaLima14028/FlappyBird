@@ -1,6 +1,14 @@
-console.log("[DevSoutinho] Flappy Bird");
+console.log("Flappy Bird");
+
+const canvas = document.querySelector("canvas");
+const contexto = canvas.getContext("2d");
 
 let frames = 0;
+
+const estado = {
+  game: 1,
+  over: 2,
+}
 
 //? SOM DE BATIDA
 const som_HIT = new Audio();
@@ -16,9 +24,6 @@ som_PONTUACAO.src = "./efeitos/ponto.wav";
 
 const sprites = new Image();
 sprites.src = "./sprites.png";
-
-const canvas = document.querySelector("canvas");
-const contexto = canvas.getContext("2d");
 
 //! PLANO DE FUNDO
 const planoDeFundo = {
@@ -138,6 +143,8 @@ function criaCanos() {
       spriteY: 169,
     },
     espaco: 80,
+    pares: [],
+    moved: true,
 
     desenha() {
       canos.pares.forEach(function (par) {
@@ -206,8 +213,6 @@ function criaCanos() {
 
       return false;
     },
-
-    pares: [],
 
     atualiza() {
       const passou100Frames = frames % 100 === 0;
@@ -414,12 +419,18 @@ function criaPlacar() {
     },
 
     atualiza() {
+      if (contexto == estado.over) {
+        placar.pontuacao = placar.pontuacao + 1;
+      }
+
+      /*
       const intervaloDeFrames = 20;
       const passouOIntervalo = frames % intervaloDeFrames === 0;
 
       if (passouOIntervalo) {
         placar.pontuacao = placar.pontuacao + 1;
       }
+      */
     },
   };
 
