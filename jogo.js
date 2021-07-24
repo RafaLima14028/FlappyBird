@@ -364,6 +364,30 @@ const mensagemGameOver = {
   },
 };
 
+//! MEDALHA NA TELA DE GAME_OVER
+const medalhaDeOuro = {
+  sX: 48,
+  sY: 124,
+  w: 44,
+  h: 44,
+  x: 72,
+  y: 137,
+
+  desenha() {
+    contexto.drawImage(
+      sprites,
+      medalhaDeOuro.sX,
+      medalhaDeOuro.sY,
+      medalhaDeOuro.w,
+      medalhaDeOuro.h,
+      medalhaDeOuro.x,
+      medalhaDeOuro.y,
+      medalhaDeOuro.w,
+      medalhaDeOuro.h
+    );
+  },
+};
+
 //! PLACAR
 function criaPlacar() {
   const placar = {
@@ -454,6 +478,7 @@ const Telas = {
   GAME_OVER: {
     desenha() {
       mensagemGameOver.desenha();
+      medalhaDeOuro.desenha();
     },
 
     atualiza() {},
