@@ -2,8 +2,13 @@ console.log("[DevSoutinho] Flappy Bird");
 
 let frames = 0;
 
+//? SOM DE BATIDA
 const som_HIT = new Audio();
 som_HIT.src = "./efeitos/hit.wav";
+
+//? SOM DO PULO
+const som_PULO = new Audio();
+som_PULO.src = "./efeitos/pulo.wav";
 
 const sprites = new Image();
 sprites.src = "./sprites.png";
@@ -249,7 +254,11 @@ function criarFlappyBird() {
       //console.log("devo pular");
       //console.log("[Antes]", flappyBird.velocidade);
 
-      flappyBird.velocidade = -flappyBird.pulo;
+      const flappyPula = (flappyBird.velocidade = -flappyBird.pulo);
+
+      if (flappyPula) {
+        som_PULO.play();
+      }
 
       //console.log("[Depois]", flappyBird.velocidade);
     },
